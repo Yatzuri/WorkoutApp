@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace WorkoutApp.Models
 {
-    public class RatingsDetail
+    public class RatingsListItem
     {
-
+        public int Id { get; set; }
+        public double AverageScore { get; set; }
+        public string Name { get; set; }
     }
 }

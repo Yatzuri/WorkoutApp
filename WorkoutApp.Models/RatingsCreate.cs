@@ -8,9 +8,10 @@ namespace WorkoutApp.Models
 {
     public class RatingsCreate
     {
+        public double ExertionScore { get; set; }
+        public double EnjoymentScore { get; set; }
+        public double HeartrateScore { get; set; }
         public int WorkoutPlanId { get; set; }
-        public 
-        public 
-        public 
+
     }
 }

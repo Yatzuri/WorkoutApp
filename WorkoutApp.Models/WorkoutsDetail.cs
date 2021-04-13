@@ -11,7 +11,9 @@ namespace WorkoutApp.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string RatingsList { get; set; }
+        public double Ratings { get; set; }
+
+        public double AverageWorkoutScore { get; set; }
 
         [Display(Name = "Created")]
         public DateTimeOffset CreatedUtc { get; set; }

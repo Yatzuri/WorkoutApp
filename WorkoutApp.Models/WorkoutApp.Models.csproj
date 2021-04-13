@@ -72,8 +72,7 @@
     <Compile Include="ExerciseListItem%27.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RatingsCreate.cs" />
-    <Compile Include="RatingsDetail.cs" />
-    <Compile Include="RatingsEdit.cs" />
+    <Compile Include="RatingsListItem.cs" />
     <Compile Include="WorkoutsCreate.cs" />
     <Compile Include="WorkoutsDetail.cs" />
     <Compile Include="WorkoutsEdit.cs" />

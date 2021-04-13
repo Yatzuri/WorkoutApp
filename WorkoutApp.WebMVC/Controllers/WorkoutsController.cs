@@ -73,7 +73,7 @@ namespace WorkoutApp.WebMVC.Controllers
                 {
                     Id = detail.Id,
                     Name = detail.Name,
-                    RatingsList = detail.RatingsList
+                    Rating = detail.Ratings
                 };
             return View(model);
         }

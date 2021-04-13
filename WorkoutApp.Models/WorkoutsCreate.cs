@@ -15,6 +15,6 @@ namespace WorkoutApp.Models
         public string Name { get; set; }
 
         [MaxLength(100)]
-        public string RatingsList { get; set; }
+        public double Ratings { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace WorkoutApp.Services
                 {
                     UserId = _userId,
                     Name = model.Name,
-                    RatingsList = model.RatingsList,
+                    Rating = model.Ratings,
                     CreatedUtc = DateTimeOffset.Now,
                 };
             
@@ -45,13 +45,18 @@ namespace WorkoutApp.Services
                         .Where(e => e.UserId == _userId)
                         .Select(
                             e =>
+                            { var ratings = e.Ratings 
+
+
+
                                 new WorkoutsListItem
                                 {
                                     Id = e.Id,
                                     Name = e.Name,
                                     IsStarred = e.IsStarred,
                                     CreatedUtc = e.CreatedUtc
-                                }
+                                };
+                            }
                         );
 
                 return query.ToArray();
@@ -71,7 +76,7 @@ namespace WorkoutApp.Services
                     {
                         Id = entity.Id,
                         Name = entity.Name,
-                        RatingsList = entity.RatingsList,
+                        Ratings = entity.Rating,
                         CreatedUtc = entity.CreatedUtc
                     };
             }
@@ -87,7 +92,7 @@ namespace WorkoutApp.Services
                     .Single(e => e.Id == model.Id && e.UserId == _userId);
 
                 entity.Name = model.Name;
-                entity.RatingsList = model.RatingsList;
+                entity.Ratings = model.Ratings;
                 entity.CreatedUtc = DateTimeOffset.UtcNow;
                 entity.IsStarred = model.IsStarred;
 

@@ -16,8 +16,38 @@ namespace WorkoutApp.Data
         [Required]
         public Guid UserId { get; set; }
 
-        [Required]
-        public string RatingsList { get; set; }
+        
+        public virtual List<Ratings> Ratings { get; set; }
+        
+        public double Rating
+        {
+            get
+            {
+                double totalAverageRating = 0;
+                foreach (var rating in Ratings)
+                {
+                    totalAverageRating += rating.AverageScore;
+                }
+                return (Ratings.Count > 0)
+                    ?
+                        totalAverageRating / Ratings.Count
+                    :
+                        0;
+            }
+        }
+
+        public double AverageWorkoutScore
+        {
+            get
+            {
+                IEnumerable<double> scores = Ratings.Select(r => r.ExertionScore);
+                double totalExertionScores = scores.Sum();
+
+                return Ratings.Count > 0 ? totalExertionScores / Ratings.Count : 0;
+            }
+        }
+
+
 
         [Required]
         public string Name { get; set; }

@@ -12,6 +12,6 @@ namespace WorkoutApp.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsStarred { get; set; }
-        public string RatingsList { get; set; }
+        public double Rating { get; set; }
     }
 }

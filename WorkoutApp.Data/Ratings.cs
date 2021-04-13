@@ -18,12 +18,20 @@ namespace WorkoutApp.Data
         public int WorkoutPlanId { get; set; }
 
         [Required]
-        public int ExertionScore { get; set; }
+        public double ExertionScore { get; set; }
 
         [Required]
-        public int EnjoymentScore { get; set; }
+        public double EnjoymentScore { get; set; }
 
         [Required]
-        public int HeartrateScore { get; set; }
+        public double HeartrateScore { get; set; }
+
+        public double AverageScore
+        {
+            get
+            {
+                return (ExertionScore * 2 + EnjoymentScore + HeartrateScore)  / 4;
+            }
+        }
     }
 }
