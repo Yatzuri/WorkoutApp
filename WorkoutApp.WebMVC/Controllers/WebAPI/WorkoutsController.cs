@@ -21,7 +21,7 @@ namespace WorkoutApp.WebMVC.Controllers.WebAPI
 
             var detail = service.GetWorkoutById(Id);
 
-            var updatedWorkouts =
+            var updateWorkout =
                      new WorkoutsEdit
                      {
                          Id = detail.Id,
@@ -29,7 +29,7 @@ namespace WorkoutApp.WebMVC.Controllers.WebAPI
                          RatingsList = detail.RatingsList,
                          IsStarred = newState
                      };
-            return service.UpdateWorkouts(updateWorkouts);
+            return service.UpdateWorkout(updateWorkout);
         }
 
         [Route("{id}/Star")]

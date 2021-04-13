@@ -8,49 +8,46 @@ using WorkoutApp.Models;
 
 namespace WorkoutApp.Services
 {
-    public class WorkoutsService
+    public class ExerciseService
     {
         private readonly Guid _userId;
-
-        public WorkoutsService(Guid userId)
+        public ExerciseService(Guid userId)
         {
             _userId = userId;
         }
 
-        public bool CreateWorkout(WorkoutsCreate model)
+        public bool CreateExercise(ExerciseCreate model)
         {
             var entity =
-                new Workouts()
+                new Exercise()
                 {
-                    UserId = _userId,
+                    WorkoutPlanId = model.WorkoutPlanId,
                     Name = model.Name,
-                    RatingsList = model.RatingsList,
-                    CreatedUtc = DateTimeOffset.Now,
+                    Level = model.Level
                 };
-            
+
             using (var ctx = new ApplicationDbContext())
             {
-                ctx.Workouts.Add(entity);
+                ctx.Exercises.Add(entity);
                 return ctx.SaveChanges() == 1;
             }
         }
 
-        public IEnumerable<WorkoutsListItem> GetWorkouts()
+        public IEnumerable<ExerciseListItem> GetExercises()
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var query =
                     ctx
-                        .Workouts
-                        .Where(e => e.UserId == _userId)
+                        .Exercises
+                        //.Where(e => e.UserId == _userId)
                         .Select(
                             e =>
-                                new WorkoutsListItem
+                                new ExerciseListItem
                                 {
                                     Id = e.Id,
                                     Name = e.Name,
-                                    IsStarred = e.IsStarred,
-                                    CreatedUtc = e.CreatedUtc
+                                    Level = e.Level
                                 }
                         );
 
@@ -58,53 +55,54 @@ namespace WorkoutApp.Services
             }
         }
 
-        public WorkoutsDetail GetWorkoutById(int id)
+        public ExerciseDetail GetExerciseById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                    .Workouts
-                    .Single(e => e.Id == id && e.UserId == _userId);
+                    .Exercises
+                    .Single(e => e.Id == id);
                 return
-                    new WorkoutsDetail
+                    new ExerciseDetail
                     {
                         Id = entity.Id,
                         Name = entity.Name,
-                        RatingsList = entity.RatingsList,
-                        CreatedUtc = entity.CreatedUtc
+                        Sets = entity.Sets,
+                        Reps = entity.Reps,
+                        Level = entity.Level
                     };
             }
         }
 
-        public bool UpdateWorkout(WorkoutsEdit model)
+        public bool UpdateExercise(ExerciseEdit model)
         {
-            using(var ctx = new ApplicationDbContext())
+            using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                    .Workouts
-                    .Single(e => e.Id == model.Id && e.UserId == _userId);
+                    .Exercises
+                    .Single(e => e.Id == model.Id && e.OwnerId == _userId);
 
                 entity.Name = model.Name;
-                entity.RatingsList = model.RatingsList;
-                entity.CreatedUtc = DateTimeOffset.UtcNow;
-                entity.IsStarred = model.IsStarred;
+                entity.Sets = model.Sets;
+                entity.Reps = model.Reps;
+                entity.Level = model.Level;
 
                 return ctx.SaveChanges() == 1;
             }
         }
 
-        public bool DeleteWorkout(int Id)
+        public bool DeleteExercise(int Id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                        .Workouts
-                        .Single(e => e.Id == Id && e.UserId == _userId);
+                        .Exercises
+                        .Single(e => e.Id == Id && e.OwnerId == _userId);
 
-                ctx.Workouts.Remove(entity);
+                ctx.Exercises.Remove(entity);
 
                 return ctx.SaveChanges() == 1;
             }

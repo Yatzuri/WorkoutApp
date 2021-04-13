@@ -11,17 +11,18 @@ using WorkoutApp.Services;
 namespace WorkoutApp.WebMVC.Controllers
 {
     [Authorize]
-    public class WorkoutsController : Controller
+    public class ExerciseController : Controller
     {
-        // GET: Workouts
+        // GET: Exercise
         public ActionResult Index()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new WorkoutsService(userId);
-            var model = service.GetWorkouts();
+            var service = new ExerciseService(userId);
+            var model = service.GetExercises();
 
             return View(model);
         }
+
 
         //GET
         public ActionResult Create()
@@ -32,55 +33,56 @@ namespace WorkoutApp.WebMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create(WorkoutsCreate model)
+        public ActionResult Create(ExerciseCreate model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var service = CreateWorkoutsService();
+            var service = CreateExerciseService();
 
-            if (service.CreateWorkout(model))
+            if (service.CreateExercise(model))
             {
-                TempData["SaveResult"] = "Your Workout was Created. Are you ready to design it?";
+                TempData["SaveResult"] = "Your Exercise was Created.";
                 return RedirectToAction("Index");
             };
 
-            ModelState.AddModelError("", "Workout could not be created.");
+            ModelState.AddModelError("", "Exercise could not be created.");
 
             return View(model);
         }
 
         public ActionResult Details(int id)
         {
-            var svc = CreateWorkoutsService();
-            var model = svc.GetWorkoutById(id);
+            var svc = CreateExerciseService();
+            var model = svc.GetExerciseById(id);
 
             return View(model);
         }
 
-        private WorkoutsService CreateWorkoutsService()
+        private ExerciseService CreateExerciseService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new WorkoutsService(userId);
+            var service = new ExerciseService(userId);
             return service;
         }
 
         public ActionResult Edit(int id)
         {
-            var service = CreateWorkoutsService();
-            var detail = service.GetWorkoutById(id);
+            var service = CreateExerciseService();
+            var detail = service.GetExerciseById(id);
             var model =
-                new WorkoutsEdit
+                new ExerciseEdit
                 {
                     Id = detail.Id,
                     Name = detail.Name,
-                    RatingsList = detail.RatingsList
+                    Reps = detail.Reps,
+                    Sets = detail.Sets
                 };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, WorkoutsEdit model)
+        public ActionResult Edit(int id, ExerciseEdit model)
         {
             if (!ModelState.IsValid) return View(model);
 
@@ -90,31 +92,30 @@ namespace WorkoutApp.WebMVC.Controllers
                 return View(model);
             }
 
-            var service = CreateWorkoutsService();
+            var service = CreateExerciseService();
 
-            if (service.UpdateWorkout(model))
+            if (service.UpdateExercise(model))
             {
-                TempData["SaveResult"] = "Your workout was updated.";
+                TempData["SaveResult"] = "Your exercise was updated.";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Your workout could not be updated.");
+            ModelState.AddModelError("", "Your exercise could not be updated.");
 
             return View(model);
         }
 
-        public bool DeleteWorkout(int Id)
+        public bool DeleteExercise(int Id) //change this back to DeleteExercise
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
-                        .Workouts
-                        .Single(e => e.Id == Id && e.UserId == userId);
+                        .Exercises
+                        .Single(e => e.Id == Id && e.OwnerId == userId);
 
-                ctx.Workouts.Remove(entity);
+                ctx.Exercises.Remove(entity);
 
                 return ctx.SaveChanges() == 1;
             }
@@ -123,8 +124,8 @@ namespace WorkoutApp.WebMVC.Controllers
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
-            var svc = CreateWorkoutsService();
-            var model = svc.GetWorkoutById(id);
+            var svc = CreateExerciseService();
+            var model = svc.GetExerciseById(id);
 
             return View(model);
         }
@@ -134,11 +135,11 @@ namespace WorkoutApp.WebMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeletePost(int id)
         {
-            var service = CreateWorkoutsService();
+            var service = CreateExerciseService(); //this line is right.
 
-            service.DeleteWorkout(id);
+            service.DeleteExercise(id);
 
-            TempData["SaveResult"] = "Your workout was deleted";
+            TempData["SaveResult"] = "Your exercise was deleted";
 
             return RedirectToAction("Index");
         }

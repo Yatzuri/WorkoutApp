@@ -33,6 +33,8 @@ namespace WorkoutApp.Data
         }
 
         public DbSet<Workouts> Workouts { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
