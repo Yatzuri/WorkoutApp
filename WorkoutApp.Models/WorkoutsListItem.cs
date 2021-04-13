@@ -12,6 +12,9 @@ namespace WorkoutApp.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
+        [UIHint("Starred")]
+        public bool IsStarred { get; set; }
+
         [Display(Name="Created")]
         public DateTimeOffset CreatedUtc { get; set; }
     }

@@ -49,6 +49,7 @@ namespace WorkoutApp.Services
                                 {
                                     Id = e.Id,
                                     Name = e.Name,
+                                    IsStarred = e.IsStarred,
                                     CreatedUtc = e.CreatedUtc
                                 }
                         );
