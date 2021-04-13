@@ -24,7 +24,7 @@ namespace WorkoutApp.Services
                 {
                     UserId = _userId,
                     Name = model.Name,
-                    Exercise = model.Exercise,
+                    RatingsList = model.RatingsList,
                     CreatedUtc = DateTimeOffset.Now,
                 };
             
@@ -70,9 +70,26 @@ namespace WorkoutApp.Services
                     {
                         Id = entity.Id,
                         Name = entity.Name,
-                        Exercise = entity.Exercise,
+                        RatingsList = entity.RatingsList,
                         CreatedUtc = entity.CreatedUtc
                     };
+            }
+        }
+
+        public bool UpdateWorkout(WorkoutsEdit model)
+        {
+            using(var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Workouts
+                    .Single(e => e.Id == model.Id && e.UserId == _userId);
+
+                entity.Name = model.Name;
+                entity.RatingsList = model.RatingsList;
+                entity.CreatedUtc = DateTimeOffset.UtcNow;
+
+                return ctx.SaveChanges() == 1;
             }
         }
     }

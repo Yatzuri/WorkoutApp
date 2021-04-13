@@ -62,5 +62,19 @@ namespace WorkoutApp.WebMVC.Controllers
             var service = new WorkoutsService(userId);
             return service;
         }
+
+        public ActionResult Edit(int id)
+        {
+            var service = CreatedWorkoutService();
+            var detail = service.GetWorkoutsById(id);
+            var model =
+                new WorkoutsEdit
+                {
+                    Id = detail.Id,
+                    Name = detail.Name,
+                    RatingsList = detail.RatingsList
+                };
+            return View(model);
+        }
     }
 }
