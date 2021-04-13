@@ -13,6 +13,7 @@ namespace WorkoutApp.Models
         public string Name { get; set; }
 
         [UIHint("Starred")]
+        [Display(Name = "Bookmark")]
         public bool IsStarred { get; set; }
 
         [Display(Name="Created")]

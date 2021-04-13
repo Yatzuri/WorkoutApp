@@ -89,6 +89,7 @@ namespace WorkoutApp.Services
                 entity.Name = model.Name;
                 entity.RatingsList = model.RatingsList;
                 entity.CreatedUtc = DateTimeOffset.UtcNow;
+                entity.IsStarred = model.IsStarred;
 
                 return ctx.SaveChanges() == 1;
             }
