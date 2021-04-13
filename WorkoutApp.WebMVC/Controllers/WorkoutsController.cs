@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WorkoutApp.Data;
 using WorkoutApp.Models;
 using WorkoutApp.Services;
 
@@ -35,7 +36,7 @@ namespace WorkoutApp.WebMVC.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var service = CreateWorkoutService();
+            var service = CreateWorkoutsService();
 
             if (service.CreateWorkouts(model))
             {
@@ -43,15 +44,15 @@ namespace WorkoutApp.WebMVC.Controllers
                 return RedirectToAction("Index");
             };
 
-            ModelState.AddModelError("", "Note could not be created.");
+            ModelState.AddModelError("", "Workout could not be created.");
 
             return View(model);
         }
 
         public ActionResult Details(int id)
         {
-            var svc = CreateWorkoutService();
-            var model = svc.GetNoteById(id);
+            var svc = CreateWorkoutsService();
+            var model = svc.GetWorkoutById(id);
 
             return View(model);
         }
@@ -65,7 +66,7 @@ namespace WorkoutApp.WebMVC.Controllers
 
         public ActionResult Edit(int id)
         {
-            var service = CreatedWorkoutService();
+            var service = CreateWorkoutsService();
             var detail = service.GetWorkoutsById(id);
             var model =
                 new WorkoutsEdit
@@ -75,6 +76,69 @@ namespace WorkoutApp.WebMVC.Controllers
                     RatingsList = detail.RatingsList
                 };
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, WorkoutsEdit model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            if (model.Id != id)
+            {
+                ModelState.AddModelError("", "Id Mismatch");
+                return View(model);
+            }
+
+            var service = CreateWorkoutsService();
+
+            if (service.UpdateWorkouts(model))
+            {
+                TempData["SaveResult"] = "Your workout was updated.";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Your workout could not be updated.");
+
+            return View(model);
+        }
+
+        public bool DeleteWorkout(int Id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Workouts
+                        .Single(e => e.Id == Id && e.UserId == _userId);
+
+                ctx.Workouts.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        [ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            var svc = CreateWorkoutsService();
+            var model = svc.GetWorkoutsById(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePost(int id)
+        {
+            var service = CreateWorkoutsService();
+
+            service.DeleteWorkout(id);
+
+            TempData["SaveResult"] = "Your workout was deleted";
+
+            return RedirectToAction("Index");
         }
     }
 }

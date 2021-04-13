@@ -238,6 +238,9 @@
     <Content Include="Views\Workouts\Index.cshtml" />
     <Content Include="Views\Workouts\Create.cshtml" />
     <Content Include="Views\Workouts\Details.cshtml" />
+    <Content Include="Views\Workouts\Edit.cshtml" />
+    <Content Include="Views\Workouts\Delete.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTimeOffset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
