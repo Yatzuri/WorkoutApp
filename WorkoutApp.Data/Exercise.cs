@@ -17,8 +17,9 @@ namespace WorkoutApp.Data
         public Guid OwnerId { get; set; }
 
         [Required]
-        [ForeignKey("Workout")]
+        [ForeignKey("Workouts")]
         public int WorkoutPlanId { get; set; }
+        public virtual Workouts Workouts { get; set; }
 
         [Required]
         public string Name { get; set; }

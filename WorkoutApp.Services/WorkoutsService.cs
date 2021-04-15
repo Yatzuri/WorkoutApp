@@ -24,7 +24,7 @@ namespace WorkoutApp.Services
                 {
                     UserId = _userId,
                     Name = model.Name,
-                    Rating = model.Ratings,
+                    // Ratings = model.Ratings,
                     CreatedUtc = DateTimeOffset.Now,
                 };
             
@@ -45,18 +45,18 @@ namespace WorkoutApp.Services
                         .Where(e => e.UserId == _userId)
                         .Select(
                             e =>
-                            { var ratings = e.Ratings 
+                            //{ /*var ratings = e.Ratings;*/
 
 
 
-                                new WorkoutsListItem
-                                {
-                                    Id = e.Id,
-                                    Name = e.Name,
-                                    IsStarred = e.IsStarred,
-                                    CreatedUtc = e.CreatedUtc
-                                };
+                            new WorkoutsListItem
+                            {
+                                Id = e.Id,
+                                Name = e.Name,
+                                IsStarred = e.IsStarred,
+                                CreatedUtc = e.CreatedUtc
                             }
+                            
                         );
 
                 return query.ToArray();
@@ -76,7 +76,7 @@ namespace WorkoutApp.Services
                     {
                         Id = entity.Id,
                         Name = entity.Name,
-                        Ratings = entity.Rating,
+                        //Ratings = entity.Rating,
                         CreatedUtc = entity.CreatedUtc
                     };
             }
@@ -92,7 +92,7 @@ namespace WorkoutApp.Services
                     .Single(e => e.Id == model.Id && e.UserId == _userId);
 
                 entity.Name = model.Name;
-                entity.Ratings = model.Ratings;
+                //entity.Ratings = model.Ratings;
                 entity.CreatedUtc = DateTimeOffset.UtcNow;
                 entity.IsStarred = model.IsStarred;
 

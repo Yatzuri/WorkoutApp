@@ -72,6 +72,8 @@
     <Compile Include="ExerciseListItem%27.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RatingsCreate.cs" />
+    <Compile Include="RatingsDetail.cs" />
+    <Compile Include="RatingsEdit.cs" />
     <Compile Include="RatingsListItem.cs" />
     <Compile Include="WorkoutsCreate.cs" />
     <Compile Include="WorkoutsDetail.cs" />
@@ -81,6 +83,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkoutApp.Data\WorkoutApp.Data.csproj">
+      <Project>{9cbd96a4-5807-4293-8250-dd4f403cc4b9}</Project>
+      <Name>WorkoutApp.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

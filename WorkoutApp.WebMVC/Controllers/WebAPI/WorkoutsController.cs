@@ -26,7 +26,7 @@ namespace WorkoutApp.WebMVC.Controllers.WebAPI
                      {
                          Id = detail.Id,
                          Name = detail.Name,
-                         Ratings = detail.Ratings,
+                         //Ratings = detail.Ratings,
                          IsStarred = newState
                      };
             return service.UpdateWorkout(updateWorkout);

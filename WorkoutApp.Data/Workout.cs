@@ -19,7 +19,7 @@ namespace WorkoutApp.Data
         
         public virtual List<Ratings> Ratings { get; set; }
         
-        public double Rating
+        public double AverageRating
         {
             get
             {

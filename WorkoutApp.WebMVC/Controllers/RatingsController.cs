@@ -10,20 +10,19 @@ using WorkoutApp.Services;
 
 namespace WorkoutApp.WebMVC.Controllers
 {
-    [Authorize]
-    public class WorkoutsController : Controller
+    public class RatingsController : Controller
     {
         // GET: Workouts
         public ActionResult Index()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new WorkoutsService(userId);
-            var model = service.GetWorkouts();
+            var service = new RatingsService(userId);
+            var model = service.GetRating();
 
             return View(model);
         }
 
-        //GET
+        // GET: Ratings
         public ActionResult Create()
         {
             return View();
@@ -32,44 +31,44 @@ namespace WorkoutApp.WebMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create(WorkoutsCreate model)
+        public ActionResult Create(RatingsCreate model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var service = CreateWorkoutsService();
+            var service = CreateRatingsService();
 
-            if (service.CreateWorkout(model))
+            if (service.CreateRating(model))
             {
-                TempData["SaveResult"] = "Your Workout was Created. Are you ready to design it?";
+                TempData["SaveResult"] = "Your Rating was Created.";
                 return RedirectToAction("Index");
             };
 
-            ModelState.AddModelError("", "Workout could not be created.");
+            ModelState.AddModelError("", "Rating could not be created.");
 
             return View(model);
         }
 
         public ActionResult Details(int id)
         {
-            var svc = CreateWorkoutsService();
-            var model = svc.GetWorkoutById(id);
+            var svc = CreateRatingsService();
+            var model = svc.GetRatingById(id);
 
             return View(model);
         }
 
-        private WorkoutsService CreateWorkoutsService()
+        private RatingsService CreateRatingsService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new WorkoutsService(userId);
+            var service = new RatingsService(userId);
             return service;
         }
 
         public ActionResult Edit(int id)
         {
-            var service = CreateWorkoutsService();
-            var detail = service.GetWorkoutById(id);
+            var service = CreateRatingsService();
+            var detail = service.GetRatingById(id);
             var model =
-                new WorkoutsEdit
+                new RatingsEdit
                 {
                     Id = detail.Id,
                     Name = detail.Name,
@@ -80,7 +79,7 @@ namespace WorkoutApp.WebMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, WorkoutsEdit model)
+        public ActionResult Edit(int id, RatingsEdit model)
         {
             if (!ModelState.IsValid) return View(model);
 
@@ -90,20 +89,20 @@ namespace WorkoutApp.WebMVC.Controllers
                 return View(model);
             }
 
-            var service = CreateWorkoutsService();
+            var service = CreateRatingsService();
 
-            if (service.UpdateWorkout(model))
+            if (service.UpdateRating(model))
             {
-                TempData["SaveResult"] = "Your workout was updated.";
+                TempData["SaveResult"] = "Your rating was updated.";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Your workout could not be updated.");
+            ModelState.AddModelError("", "Your rating could not be updated.");
 
             return View(model);
         }
 
-        public bool DeleteWorkout(int Id)
+        public bool DeleteRating(int Id)
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
 
@@ -111,10 +110,10 @@ namespace WorkoutApp.WebMVC.Controllers
             {
                 var entity =
                     ctx
-                        .Workouts
+                        .Ratings
                         .Single(e => e.Id == Id && e.UserId == userId);
 
-                ctx.Workouts.Remove(entity);
+                ctx.Ratings.Remove(entity);
 
                 return ctx.SaveChanges() == 1;
             }
@@ -123,8 +122,8 @@ namespace WorkoutApp.WebMVC.Controllers
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
-            var svc = CreateWorkoutsService();
-            var model = svc.GetWorkoutById(id);
+            var svc = CreateRatingsService();
+            var model = svc.GetRatingById(id);
 
             return View(model);
         }
@@ -134,11 +133,11 @@ namespace WorkoutApp.WebMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeletePost(int id)
         {
-            var service = CreateWorkoutsService();
+            var service = CreateRatingsService();
 
-            service.DeleteWorkout(id);
+            service.DeleteRating(id);
 
-            TempData["SaveResult"] = "Your workout was deleted";
+            TempData["SaveResult"] = "Your rating was deleted";
 
             return RedirectToAction("Index");
         }
