@@ -16,5 +16,7 @@ namespace WorkoutApp.Models
 
         [MaxLength(100)]
         public double Ratings { get; set; }
+
+        public int Level { get; set; }
     }
 }
