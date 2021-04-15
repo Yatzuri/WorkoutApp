@@ -10,6 +10,5 @@ namespace WorkoutApp.Models
     {
         public int Id { get; set; }
         public double AverageScore { get; set; }
-        public string Name { get; set; }
     }
 }

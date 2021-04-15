@@ -71,8 +71,9 @@ namespace WorkoutApp.WebMVC.Controllers
                 new RatingsEdit
                 {
                     Id = detail.Id,
-                    Name = detail.Name,
-                    //Rating = detail.Ratings
+                    ExertionScore = detail.ExertionScore,
+                    EnjoymentScore = detail.EnjoymentScore,
+                    HeartrateScore = detail.HeartrateScore
                 };
             return View(model);
         }

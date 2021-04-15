@@ -22,13 +22,14 @@ namespace WorkoutApp.Services
                 new Ratings()
                 {
                     WorkoutPlanId = model.WorkoutPlanId,
-                    Name = model.Name,
-                    Level = model.Level
+                    ExertionScore = model.ExertionScore,
+                    EnjoymentScore = model.EnjoymentScore,
+                    HeartrateScore = model.HeartrateScore
                 };
 
             using (var ctx = new ApplicationDbContext())
             {
-                ctx.Exercises.Add(entity);
+                ctx.Ratings.Add(entity);
                 return ctx.SaveChanges() == 1;
             }
         }
@@ -43,11 +44,10 @@ namespace WorkoutApp.Services
                         //.Where(e => e.UserId == _userId)
                         .Select(
                             e =>
-                                new ExerciseListItem
+                                new RatingsListItem
                                 {
                                     Id = e.Id,
-                                    Name = e.Name,
-                                    Level = e.Level
+                                    AverageScore = e.AverageScore
                                 }
                         );
 
